@@ -11,9 +11,15 @@ services:
         "--profile_port=0",
         "--enable_endpoint_metrics",
       ]
-    network_mode: host
     restart: always
-    image: buchgr/bazel-remote-cache:v2.3.3
+    image: buchgr/bazel-remote-cache:latest
     user: $USER_ID:$GROUP_ID
+    ports:
+      - 8080:8080
+      - 9092:9092
+      - 6060:6060
+    environment:
+      BAZEL_REMOTE_GRPC_PORT: 9092
+      BAZEL_REMOTE_ENABLE_ENDPOINT_METRICS: 1
     volumes:
       - $HOME/.cache/bazel/remote:/data:rw
